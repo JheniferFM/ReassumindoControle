@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reassumindo o Controle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Nunito:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#FFF6D6;--card:#FFFBEA;--tx:#4A5220;--ac:#3B6EA5;--ac2:#E8DCA6;--bd:#D9CC8C;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2E3318;--card:#3A4022;--tx:#F5EDD0;--ac:#6FA3D8;--ac2:#4A5230;--bd:#5A6338;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#2E3318;--card:#3A4022;--tx:#F5EDD0;--ac:#6FA3D8;--ac2:#4A5230;--bd:#5A6338;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.6 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.2}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:2px solid var(--bd);padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px));display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.logo{font:800 1.2rem Fraunces,serif;margin-right:auto}
+nav{display:flex;gap:4px;overflow-x:auto;max-width:100%}
+nav a{padding:6px 12px;border-radius:99px;color:var(--tx);text-decoration:none;white-space:nowrap;font-weight:600;font-size:.9rem}
+nav a.on,nav a:hover{background:var(--ac);color:#fff}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:20px;padding:18px;margin:14px 0}
+label{display:block;font-weight:600;margin:12px 0 4px}
+input,select,textarea,button{font:inherit;color:var(--tx)}
+input,select,textarea{width:100%;padding:10px;border-radius:12px;border:2px solid var(--bd);background:var(--bg)}
+button,.btn{background:var(--ac);color:#fff;border:0;border-radius:99px;padding:10px 20px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;margin:6px 6px 0 0}
+button.alt{background:var(--ac2);color:var(--tx)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.hero{font-size:clamp(2rem,6vw,3.2rem);margin:20px 0 8px}
+.bar{height:16px;background:var(--ac2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:99px;transition:width .4s}
+.bar.warn i{background:#C0562B}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.q{padding:10px 0;border-bottom:1px dashed var(--bd)}
+.sm{font-size:.85rem;opacity:.85}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,150%);background:var(--ac);color:#fff;padding:14px 20px;border-radius:20px;max-width:90vw;font-weight:600;transition:transform .5s;z-index:9;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+footer{border-top:2px solid var(--bd);padding:16px;text-align:center;font-size:.85rem}
+.tag{background:var(--ac2);border-radius:99px;padding:2px 10px;font-size:.8rem;font-weight:800}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+<span class="logo">Reassumindo o Controle</span>
+<nav id="nav" aria-label="Menu principal"></nav>
+<button class="alt" id="tema" aria-label="Alternar modo claro e escuro">Claro / Escuro</button>
+</header>
+<main>
+
+<section id="inicio">
+<h1 class="hero">Voltar a ter o controle é possível.</h1>
+<p>Apoio sem julgamento para crianças, adolescentes e famílias que enfrentam o vício em jogos, apostas e cassinos online. Faça o teste, acompanhe o tempo de tela, crie tarefas em família e converse com profissionais.</p>
+<div class="grid">
+<a class="btn" href="#dados">Meu cadastro</a><a class="btn" href="#teste">Fazer o teste</a><a class="btn" href="#resp">Questionário dos pais</a><a class="btn" href="#pais">Painel dos pais</a><a class="btn" href="#psico">Psicólogos 24h</a>
+</div>
+<div class="card"><strong>Em emergência:</strong> ligue para o CVV no <strong>188</strong> (24h, gratuito) ou procure o pronto atendimento mais próximo.</div>
+</section>
+
+<section id="dados">
+<h2>Dados pessoais</h2>
+<form class="card" id="fDados">
+<label for="nome">Nome</label><input id="nome" required>
+<label for="idade">Idade</label><input id="idade" type="number" min="3" max="25" required>
+<label for="resp">Responsável (nome e contato)</label><input id="respn" required>
+<label for="vicios">Tipo de vício ou dependência</label>
+<select id="vicios" multiple size="5"><option>Jogos eletrônicos</option><option>Apostas</option><option>Cassinos online</option><option>Redes sociais</option><option>Outros</option></select>
+<label for="tempo">Há quanto tempo o problema existe?</label><input id="tempo" placeholder="Ex.: 6 meses">
+<label><input type="checkbox" id="lgpd" required style="width:auto"> Li o aviso de privacidade (LGPD). Para menores de 18 anos, o responsável autoriza o uso dos dados.</label>
+<button>Salvar dados</button> <span id="okDados" class="sm" role="status"></span>
+</form>
+<p class="sm">Os dados ficam salvos somente neste aparelho, no navegador.</p>
+</section>
+
+<section id="resp">
+<h2>Questionário para o responsável</h2>
+<p>Pense nas últimas semanas em casa.</p>
+<div class="card" id="qResp"></div><button id="bResp">Ver resultado</button>
+<div id="rResp" class="card" hidden role="status"></div>
+</section>
+
+<section id="teste">
+<h2>Teste de nível de vício</h2>
+<p>Responda com sinceridade. Não existe resposta errada.</p>
+<div class="card" id="qTeste"></div><button id="bTeste">Ver meu nível</button>
+<div id="rTeste" class="card" hidden role="status"></div>
+</section>
+
+<section id="tela">
+<h2>Tempo de tela</h2>
+<div class="card">
+<p>Meta diária: <strong id="meta">120</strong> min · Hoje: <strong id="hoje">0</strong> min</p>
+<div class="bar" id="barra"><i style="width:0"></i></div><p id="alerta" class="sm" role="status"></p>
+<div class="grid"><div><label for="tipo">Atividade</label><select id="tipo"><option>Jogos</option><option>Estudos</option><option>Vídeos</option><option>Redes sociais</option></select></div>
+<div><label for="min">Minutos</label><input id="min" type="number" min="1" value="30"></div></div>
+<button id="addT">Registrar</button> <button class="alt" id="limpaT">Zerar registros</button>
+</div>
+<div class="card"><h3>Últimos 7 dias</h3><div id="semana"></div><h3>Hoje por atividade</h3><div id="porTipo"></div></div>
+</section>
+
+<section id="pais">
+<h2>Painel dos pais</h2>
+<div class="card" id="gate"></div>
+<div id="painel" hidden>
+<div class="card"><h3>Limites</h3>
+<div class="grid"><div><label for="inMeta">Minutos por dia</label><input id="inMeta" type="number" min="10" value="120"></div>
+<div><label for="inHora">Desligar telas às</label><input id="inHora" type="time" value="21:00"></div></div>
+<button id="svLim">Salvar limites</button></div>
+<div class="card"><h3>Tarefas especiais</h3>
+<label for="novaT">Nova tarefa</label>
+<select id="sugT"><option value="">Escolher sugestão…</option><option>Ler um livro por 30 minutos</option><option>Brincar ao ar livre</option><option>Ajudar em casa</option><option>Praticar um esporte</option><option>Estudar por 1 hora</option><option>Atividade em família</option></select>
+<input id="novaT" placeholder="Ou escreva a sua">
+<label for="ptsT">Pontos</label><input id="ptsT" type="number" min="1" value="10">
+<button id="addTarefa">Adicionar tarefa</button>
+<div id="listaT"></div>
+<p><strong>Pontos: <span id="pts">0</span></strong> · <span id="nivelR"></span></p>
+<p class="sm">Recompensas sugeridas: 50 pts passeio no parque · 100 pts sessão de cinema em família · 200 pts um dia de escolha da criança.</p></div>
+<div class="card"><h3>Relatório semanal</h3><div id="rel"></div></div>
+</div>
+</section>
+
+<section id="jogos">
+<h2>Jogos por faixa etária</h2>
+<div class="card"><label for="idJ">Idade da criança</label><input id="idJ" type="number" min="3" max="18" value="8"><button id="bJ">Sugerir jogos</button></div>
+<div id="outJ"></div>
+<div class="card"><strong>Atenção:</strong> evite jogos com caixas de loot, roletas, “jogo do tigrinho” e qualquer aposta com dinheiro. Confira sempre a classificação indicativa na loja e desative compras no aparelho.</div>
+</section>
+
+<section id="psico">
+<h2>Psicólogos online · atendimento 24h</h2>
+<p class="sm">Perfis de exemplo para demonstração. Em produção, mostram apenas profissionais com CRP validado.</p>
+<div id="listaP" class="grid"></div>
+<div class="card" id="chat" hidden><h3 id="chatT">Chat</h3><div id="msgs" role="log" aria-live="polite"></div>
+<label for="msgIn">Mensagem</label><input id="msgIn"><button id="env">Enviar</button><button class="alt" id="fecha">Fechar</button></div>
+<div class="card"><strong>Emergência 24h:</strong> CVV 188 · SAMU 192</div>
+</section>
+
+<section id="prof">
+<h2>Cadastro de profissionais</h2>
+<form class="card" id="fProf">
+<label for="pn">Nome completo</label><input id="pn" required>
+<label for="pc">CRP ou CRM</label><input id="pc" required>
+<label for="pe">Especialização</label><input id="pe" required placeholder="Dependência em jogos e apostas">
+<div class="grid"><div><label for="pci">Cidade</label><input id="pci" required></div><div><label for="pa">Anos de experiência</label><input id="pa" type="number" min="0" required></div></div>
+<label for="pf">Formação</label><input id="pf" required>
+<label for="ph">Horários disponíveis</label><input id="ph" placeholder="Seg a sex, 18h às 22h">
+<label for="pb">Mini biografia</label><textarea id="pb" rows="3"></textarea>
+<label for="pfo">Foto</label><input id="pfo" type="file" accept="image/*">
+<label for="pd">Documentos para validação</label><input id="pd" type="file" multiple>
+<button>Enviar para análise</button> <span id="okProf" role="status" class="tag" hidden>Status: em análise</span>
+</form>
+</section>
+
+<section id="edu">
+<h2>Conteúdo educativo</h2>
+<details class="card" open><summary><strong>Sinais de alerta</strong></summary><p>Irritação ao parar de jogar, mentiras sobre o tempo de uso, queda nas notas, isolamento, sono ruim, pedidos de dinheiro e perda de interesse em outras atividades.</p></details>
+<details class="card"><summary><strong>Como conversar com seu filho</strong></summary><p>Escolha um momento calmo, pergunte sobre o que ele gosta no jogo, ouça sem julgar e combine regras juntos. Foque no cuidado, não na punição.</p></details>
+<details class="card"><summary><strong>Prevenção de apostas</strong></summary><p>Desative compras, use controle parental, fale sobre como cassinos e apostas são feitos para o jogador perder e acompanhe os apps instalados.</p></details>
+</section>
+
+</main>
+<footer>Este site oferece apoio e orientação e não substitui o acompanhamento profissional. Em caso de emergência, procure ajuda imediata.</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const get=(k,d)=>{try{const v=localStorage.getItem('rc_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}};
+const put=(k,v)=>{try{localStorage.setItem('rc_'+k,JSON.stringify(v))}catch(e){}};
+const abas=[['inicio','Início'],['dados','Dados'],['resp','Responsável'],['teste','Teste'],['tela','Tempo de tela'],['pais','Painel dos pais'],['jogos','Jogos'],['psico','Psicólogos'],['prof','Sou profissional'],['edu','Conteúdo']];
+$('#nav').innerHTML=abas.map(a=>`<a href="#${a[0]}" data-a="${a[0]}">${a[1]}</a>`).join('');
+function rota(){let h=(location.hash||'#inicio').slice(1);if(!abas.some(a=>a[0]===h))h='inicio';
+document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===h));
+document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('on',a.dataset.a===h));
+if(h==='tela')telaUI();if(h==='pais')paisUI();window.scrollTo(0,0)}
+addEventListener('hashchange',rota);
+
+// Tema
+function tema(t){document.documentElement.dataset.theme=t;put('tema',t)}
+const t0=get('tema',null);if(t0)document.documentElement.dataset.theme=t0;
+$('#tema').onclick=()=>{const esc=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);tema(esc?'light':'dark')};
+
+// Dados
+const d0=get('dados',null);if(d0){$('#nome').value=d0.nome;$('#idade').value=d0.idade;$('#respn').value=d0.resp;$('#tempo').value=d0.tempo||''}
+$('#fDados').onsubmit=e=>{e.preventDefault();put('dados',{nome:$('#nome').value,idade:$('#idade').value,resp:$('#respn').value,tempo:$('#tempo').value,vicios:[...$('#vicios').selectedOptions].map(o=>o.value)});$('#okDados').textContent='Dados salvos neste aparelho.'};
+
+// Questionários
+const esc4=['Nunca','Às vezes','Frequentemente','Sempre'];
+const QR=['Fica mais tempo nas telas do que com a família dentro de casa?','Evita sair de casa para ficar jogando?','Evita conversar ou brincar com amigos e familiares?','Fica irritada, agressiva ou chora quando é impedida de jogar?','Mudou o sono, a alimentação ou as notas na escola?','Pede ou gasta dinheiro com jogos, apostas ou compras dentro de jogos?','Mente ou esconde o tempo que passa jogando?','Perdeu o interesse em atividades de que gostava?'];
+const QT=[['Como você se sente depois de ficar muito tempo sem jogar?',['Tranquilo',0],['Um pouco ansioso',1],['Irritado ou triste',2],['Não me sinto bem',3]],
+['Quanto tempo por dia você passa nas telas?',['Menos de 2h',0],['2 a 4h',1],['4 a 6h',2],['Mais de 6h',3]],
+['Você já tentou parar e não conseguiu?',['Nunca tentei',0],['Consegui parar',1],['Tentei e voltei',2],['Várias vezes sem conseguir',3]],
+['Você pensa em jogar o tempo todo?',['Não',0],['Às vezes',1],['Muitas vezes',2],['O tempo todo',3]],
+['Você joga para fugir de problemas ou sentimentos ruins?',['Nunca',0],['Raramente',1],['Frequentemente',2],['Sempre',3]],
+['Você já apostou ou gastou dinheiro em jogos?',['Nunca',0],['Uma vez',1],['Algumas vezes',2],['Com frequência',3]]];
+function monta(id,qs,fmt){$(id).innerHTML=qs.map((q,i)=>{const [t,ops]=fmt(q);return `<fieldset class="q" style="border:0"><legend><strong>${t}</strong></legend>${ops.map(o=>`<label style="display:inline-block;margin-right:14px;font-weight:400"><input type="radio" name="${id}${i}" value="${o[1]}" style="width:auto"> ${o[0]}</label>`).join('')}</fieldset>`}).join('')}
+monta('#qResp',QR,q=>[q,esc4.map((e,i)=>[e,i])]);
+monta('#qTeste',QT,q=>[q[0],q.slice(1)]);
+function soma(id,n){let s=0;for(let i=0;i<n;i++){const r=document.querySelector(`input[name="${id}${i}"]:checked`);if(!r)return null;s+=+r.value}return s}
+function nivel(s,max){const p=s/max;return p<.34?['leve','Bom sinal. Mantenha rotinas equilibradas, combine horários e incentive atividades fora das telas.']:p<.67?['moderado','Há sinais de atenção. Defina limites com carinho, crie tarefas em família e considere conversar com um psicólogo.']:['alto','Os sinais são fortes. Procure um psicólogo o quanto antes. Você não precisa enfrentar isso sozinho.']}
+function res(id,n,btn,tit){$(btn).onclick=()=>{const s=soma(id,n);const box=$(btn.replace('b','r'));box.hidden=false;if(s===null){box.textContent='Responda todas as perguntas para ver o resultado.';return}
+const [l,t]=nivel(s,n*3);put('res_'+id,l);box.innerHTML=`<h3>${tit}: nível ${l}</h3><p>${t}</p>${l==='leve'?'':'<a class="btn" href="#psico">Falar com um psicólogo</a>'}`}}
+res('#qResp',QR.length,'#bResp','Observação dos pais');res('#qTeste',QT.length,'#bTeste','Seu resultado');
+
+// Tempo de tela
+const hoje=()=>new Date().toISOString().slice(0,10);
+function telaUI(){const log=get('log',[]),meta=get('meta',120),h=hoje();
+const tot=log.filter(l=>l.d===h).reduce((a,l)=>a+l.m,0);
+$('#meta').textContent=meta;$('#hoje').textContent=tot;
+const p=Math.min(100,tot/meta*100);$('#barra i').style.width=p+'%';$('#barra').classList.toggle('warn',p>=80);
+$('#alerta').textContent=p>=100?'Meta do dia atingida. Hora de uma pausa fora das telas.':p>=80?'Atenção: você está perto do limite de hoje.':'Você está dentro da meta.';
+const dias=[...Array(7)].map((_,i)=>{const d=new Date(Date.now()-(6-i)*864e5).toISOString().slice(0,10);return [d.slice(8)+'/'+d.slice(5,7),log.filter(l=>l.d===d).reduce((a,l)=>a+l.m,0)]});
+const mx=Math.max(meta,...dias.map(d=>d[1]));
+$('#semana').innerHTML=dias.map(d=>`<div class="sm">${d[0]} · ${d[1]} min</div><div class="bar"><i style="width:${d[1]/mx*100}%"></i></div>`).join('');
+const tp={};log.filter(l=>l.d===h).forEach(l=>tp[l.t]=(tp[l.t]||0)+l.m);
+$('#porTipo').innerHTML=Object.keys(tp).length?Object.entries(tp).map(e=>`<p>${e[0]}: ${e[1]} min</p>`).join(''):'<p class="sm">Nenhum registro hoje. Registre acima.</p>'}
+$('#addT').onclick=()=>{const m=+$('#min').value;if(m>0){const l=get('log',[]);l.push({d:hoje(),t:$('#tipo').value,m});put('log',l);telaUI()}};
+$('#limpaT').onclick=()=>{put('log',[]);telaUI()};
+
+// Painel dos pais
+function paisUI(){const ok=get('sess',false);const senha=get('senha',null);
+$('#painel').hidden=!ok;
+$('#gate').hidden=ok;
+if(!ok)$('#gate').innerHTML=`<p>${senha?'Digite a senha dos responsáveis.':'Crie uma senha para proteger esta área.'}</p><label for="sn">Senha</label><input id="sn" type="password" autocomplete="off"><button id="entra">${senha?'Entrar':'Criar senha'}</button><p id="gerr" class="sm" role="alert"></p>`;
+if(!ok)$('#entra').onclick=()=>{const v=$('#sn').value;if(v.length<4){$('#gerr').textContent='Use pelo menos 4 caracteres.';return}
+if(!senha){put('senha',v);put('sess',true);paisUI()}else if(v===senha){put('sess',true);paisUI()}else $('#gerr').textContent='Senha incorreta.'};
+if(ok){$('#inMeta').value=get('meta',120);$('#inHora').value=get('hora','21:00');tarefas()}}
+$('#svLim').onclick=()=>{put('meta',+$('#inMeta').value);put('hora',$('#inHora').value);$('#svLim').textContent='Salvo!';setTimeout(()=>$('#svLim').textContent='Salvar limites',1500)};
+$('#sugT').onchange=e=>{$('#novaT').value=e.target.value};
+function tarefas(){const t=get('tarefas',[]);const pts=t.filter(x=>x.ok).reduce((a,x)=>a+x.p,0);
+$('#pts').textContent=pts;$('#nivelR').textContent=pts>=200?'Nível: Campeão':pts>=100?'Nível: Explorador':pts>=50?'Nível: Aventureiro':'Nível: Iniciante';
+$('#listaT').innerHTML=t.map((x,i)=>`<div class="q"><label style="font-weight:400;margin:0"><input type="checkbox" data-i="${i}" style="width:auto" ${x.ok?'checked':''}> ${x.n} <span class="tag">${x.p} pts</span></label></div>`).join('')||'<p class="sm">Nenhuma tarefa ainda.</p>';
+document.querySelectorAll('#listaT input').forEach(c=>c.onchange=()=>{t[c.dataset.i].ok=c.checked;put('tarefas',t);tarefas()});
+const done=t.filter(x=>x.ok).length,tot=get('log',[]).filter(l=>l.d===hoje()).reduce((a,l)=>a+l.m,0);
+$('#rel').innerHTML=`<p>Tarefas concluídas: ${done} de ${t.length}</p><p>Tempo de tela hoje: ${tot} min (meta ${get('meta',120)} min)</p><p>Teste do filho: ${get('res_#qTeste','não feito')} · Observação dos pais: ${get('res_#qResp','não feita')}</p>`}
+$('#addTarefa').onclick=()=>{const n=$('#novaT').value.trim();if(!n)return;const t=get('tarefas',[]);t.push({n,p:+$('#ptsT').value||10,ok:false});put('tarefas',t);$('#novaT').value='';tarefas()};
+
+// Jogos
+const JG=[[0,5,['Sago Mini World','Khan Academy Kids','Toca Life World']],[6,9,['Super Mario Bros. Wonder','Mario Kart 8 Deluxe','LEGO Builder’s Journey','Pokémon (jogos principais)']],[10,12,['Minecraft (modo criativo)','Rocket League','Splatoon 3','Zelda: Breath of the Wild (confira a classificação)']],[13,15,['Hollow Knight','Celeste','Portal 2','Stardew Valley']],[16,99,['Hades','It Takes Two','Outer Wilds','Hollow Knight: Silksong']]];
+$('#bJ').onclick=()=>{const i=+$('#idJ').value;const g=JG.find(x=>i>=x[0]&&i<=x[1]);$('#outJ').innerHTML=g?`<div class="card"><h3>Sugestões para ${i} anos</h3><ul>${g[2].map(x=>`<li>${x} <span class="tag">sem apostas</span></li>`).join('')}</ul><p class="sm">Verifique a classificação indicativa oficial antes de comprar.</p></div>`:''};
+$('#bJ').click();
+
+// Psicólogos (exemplos)
+const PS=[['Dra. Helena Duarte','CRP 01/00001','Dependência em jogos e apostas','12 anos','R$ 150','4,9'],['Dr. Marcos Oliveira','CRP 01/00002','Adolescentes e uso de telas','8 anos','R$ 120','4,8'],['Dra. Beatriz Lima','CRP 01/00003','Orientação familiar','15 anos','R$ 180','5,0'],['Dr. André Nascimento','CRP 01/00004','Plantão noturno · crises','10 anos','R$ 140','4,7']];
+$('#listaP').innerHTML=PS.map((p,i)=>`<div class="card"><h3>${p[0]}</h3><p class="sm">${p[1]} · ${p[2]}<br>${p[3]} de experiência · ${p[4]} · nota ${p[5]}</p><span class="tag">Disponível 24h</span><br><label for="hr${i}">Horário</label><select id="hr${i}"><option>Agora</option><option>Hoje 19h</option><option>Amanhã 10h</option><option>Amanhã 20h</option></select><button data-c="${i}">Conversar</button><button class="alt" data-g="${i}">Agendar</button></div>`).join('');
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{$('#chat').hidden=false;$('#chatT').textContent='Chat com '+PS[b.dataset.c][0];$('#msgs').innerHTML='<p class="sm">Demonstração: as respostas abaixo são automáticas.</p>';$('#msgIn').focus()});
+document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{b.textContent='Agendado: '+$('#hr'+b.dataset.g).value})
+$('#env').onclick=()=>{const v=$('#msgIn').value.trim();if(!v)return;$('#msgs').insertAdjacentHTML('beforeend',`<p><strong>Você:</strong> ${v.replace(/</g,'&lt;')}</p><p><strong>Profissional:</strong> Obrigado por escrever. Vou ler com atenção e já respondo.</p>`);$('#msgIn').value=''};
+$('#fecha').onclick=()=>$('#chat').hidden=true;
+
+// Cadastro profissional
+$('#fProf').onsubmit=e=>{e.preventDefault();put('prof',{nome:$('#pn').value,crp:$('#pc').value,status:'em análise'});$('#okProf').hidden=false};
+
+// Mensagens motivacionais a cada 5 minutos
+const MS=['Cada pequeno passo conta. Você está no caminho certo!','Você é mais forte do que qualquer vício.','Hoje é um ótimo dia para recomeçar.','O mundo lá fora está esperando por você.','Pedir ajuda é um ato de coragem.','Um dia de cada vez. Você consegue!','Desligar a tela é ligar a vida real.','Você merece tempo de qualidade com quem ama.','Errar faz parte. Recomeçar é o que importa.','Seu valor não depende de pontos ou fases.','Que tal um copo de água e uma volta lá fora?','Orgulho de cada escolha saudável que você faz!','Conversar com alguém de confiança alivia o peso.','Brincar com amigos de verdade não tem preço.','Você é capaz de grandes coisas além da tela.','Pais: paciência e carinho abrem mais portas que castigos.','Pais: ouvir sem julgar é o primeiro passo.','Pais: seu exemplo com as telas ensina mais que palavras.','Pais: celebrem as pequenas vitórias em família.','Cuidar de você também é cuidar da família.','Respire fundo. A vontade passa em poucos minutos.','Nenhuma aposta vale mais que a sua paz.','Sua saúde mental importa. Sempre.','Descobrir novos hobbies é uma aventura!','Dormir bem também é vencer.','O melhor jogo é a vida que você constrói.','Cada hora longe da tela é uma conquista.','Você não está sozinho. Tem muita gente torcendo por você.','Força não é nunca cair, é levantar de novo.','Amanhã pode ser ainda melhor. Continue!'];
+function msg(){const t=$('#toast');t.textContent=MS[Math.floor(Math.random()*MS.length)];t.classList.add('show');setTimeout(()=>t.classList.remove('show'),8000)}
+setInterval(msg,300000);
+rota();
+</script>
+</body>
+</html>
